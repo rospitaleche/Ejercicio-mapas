@@ -1,0 +1,47 @@
+---
+title: "Ejercicio mapas"
+author: "Rocio Ospitaleche"
+date: '2022-09-27'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rnaturalearth)
+```
+##Lectura de datos
+```{r}
+estaciones_siga <- read_csv("datos/estaciones_siga.csv")
+```
+##Carga de datos vectoriales
+
+```{r}
+mapa <- rnaturalearth::ne_countries(country = c("argentina", "chile", "uruguay", "paraguay", "brazil", "bolivia", "falkland islands"), returnclass = "sf") 
+
+str(mapa)
+```
+##Visualización
+
+```{r}
+ggplot(data = estaciones_siga, aes(x = Longitud, y = Latitud)) +
+  geom_point()
+
+```
+
+
+```{r}
+
+ggplot(mapa) +
+  geom_sf(fill = NA, color = "black", size = 0.2)
+
+```
+```{r}
+ggplot(mapa) +
+  geom_sf() +
+  geom_point(data = estaciones_siga, aes (Longitud, Latitud), color = "lightgreen") +
+  coord_sf(ylim = c(-55, -20), xlim = c(-80, -50))
+
+```
+
+
